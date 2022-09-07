@@ -2,7 +2,7 @@
  * @Author: BlueBoxChamil 283040422@qq.com
  * @Date: 2022-08-30 15:57:13
  * @LastEditors: BlueBoxChamil 283040422@qq.com
- * @LastEditTime: 2022-09-07 11:17:50
+ * @LastEditTime: 2022-09-07 15:06:12
  * @FilePath: \20220902\README.md
  * @Description: 
  * 
@@ -16,7 +16,7 @@
 ## 目的
 1. 创建两个的按钮界面，用于执行不同功能。
 2. 按钮界面添加重力圈的功能。
-3. 按钮界面添加图片库。图片库来源是本地存储和sd卡存储
+3. 按钮界面添加图片库。图片库来源是本地存储和sd卡存储，sd卡存储png和bin两种格式。
    
 ## 硬件
 1. 开发板：esp32(devkitv1)

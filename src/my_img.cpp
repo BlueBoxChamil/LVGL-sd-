@@ -2,7 +2,7 @@
  * @Author: BlueBoxChamil 283040422@qq.com
  * @Date: 2022-08-30 17:08:07
  * @LastEditors: BlueBoxChamil 283040422@qq.com
- * @LastEditTime: 2022-09-07 10:51:32
+ * @LastEditTime: 2022-09-07 15:04:25
  * @FilePath: \20220902\src\my_img.cpp
  * @Description:
  *
@@ -49,11 +49,15 @@ void my_img_init(lv_obj_t *parent)
  */
 void my_img_init_0(lv_obj_t *parent)
 {
-    //秒针 使用官方图像
-    LV_IMG_DECLARE(img_hand)
+    // //秒针 使用官方图像
+    // LV_IMG_DECLARE(img_hand)
 
+    // lv_obj_t *img = lv_img_create(parent);
+    // lv_img_set_src(img, &img_hand);
+    // lv_obj_center(img);
+    // sd卡图片
     lv_obj_t *img = lv_img_create(parent);
-    lv_img_set_src(img, &img_hand);
+    lv_img_set_src(img, "F:/1.png");
     lv_obj_center(img);
 }
 
