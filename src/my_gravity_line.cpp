@@ -2,18 +2,20 @@
  * @Author: BlueBoxChamil 283040422@qq.com
  * @Date: 2022-08-26 16:07:31
  * @LastEditors: BlueBoxChamil 283040422@qq.com
- * @LastEditTime: 2022-09-07 10:53:39
- * @FilePath: \20220902\src\my_gravity_line.cpp
+ * @LastEditTime: 2022-09-13 13:28:55
+ * @FilePath: \20220902-1\src\my_gravity_line.cpp
  * @Description:
  *
  * Copyright (c) 2022 by BlueBoxChamil 283040422@qq.com, All Rights Reserved.
  */
 #include "my_gravity_line.h"
 
+bool my_gravity_line = false;
+
 Adafruit_MPU6050 mpu;
 float base_val[] = {10, 10, 10.5};
 static lv_obj_t *label;
-static lv_obj_t *back_btn;
+// static lv_obj_t *back_btn;
 static lv_obj_t *arc;
 
 enum Direction
@@ -41,6 +43,7 @@ void mpu6050_init()
     mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
     mpu.setGyroRange(MPU6050_RANGE_500_DEG);
     mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+    pinMode(27, OUTPUT);
 }
 
 float Rad2Deg(float r)
@@ -61,6 +64,27 @@ float GetDeg(float n, int direct)
     prop = prop > 1 ? 1 : prop;
     prop = prop < -1 ? -1 : prop;
     return Rad2Deg(acos(prop));
+}
+
+static bool zhendong = false;
+static void change_output(int data)
+{
+    if ((data == 0) || (data == 25) || (data == 50) || (data == 75))
+    {
+        if (zhendong == false)
+        {
+            zhendong = true;
+            digitalWrite(27, HIGH);
+        }
+    }
+    else
+    {
+        if (zhendong == true)
+        {
+            zhendong = false;
+            digitalWrite(27, LOW);
+        }
+    }
 }
 
 /*
@@ -118,6 +142,8 @@ void set_angle(void *obj, int32_t v)
     // printf("deg_360 = %f\r\n\r\n", deg_360);
     //设置角度
     lv_arc_set_value((lv_obj_t *)obj, deg_360);
+    // change_output(deg_360);
+
     // lv_arc_set_value((lv_obj_t *)obj, v);
     //设置角度数值
     lv_label_set_text_fmt(label, "%d", (int)deg_360);
@@ -148,16 +174,16 @@ void mpu6050_start(lv_obj_t *parent)
     lv_label_set_text(label, "Hello Arduino! (V8.0.X)");
     lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 60);
 
-    back_btn = lv_btn_create(parent);
-    lv_obj_set_size(back_btn, 100, 50);
-    // lv_obj_set_pos(back_btn, 100, 80);
-    lv_obj_align(back_btn, LV_ALIGN_CENTER, 0, 100);
-    lv_obj_add_event_cb(back_btn, back_button_func, LV_EVENT_ALL, NULL);
+    // back_btn = lv_btn_create(parent);
+    // lv_obj_set_size(back_btn, 100, 50);
+    // // lv_obj_set_pos(back_btn, 100, 80);
+    // lv_obj_align(back_btn, LV_ALIGN_CENTER, 0, 100);
+    // lv_obj_add_event_cb(back_btn, back_button_func, LV_EVENT_ALL, NULL);
 
-    lv_obj_t *label1 = lv_label_create(back_btn);
-    lv_label_set_text(label1, "back");
-    lv_obj_center(label1);
-    lv_obj_add_flag(label1, LV_OBJ_FLAG_EVENT_BUBBLE | LV_OBJ_FLAG_CLICKABLE);
+    // lv_obj_t *label1 = lv_label_create(back_btn);
+    // lv_label_set_text(label1, "back");
+    // lv_obj_center(label1);
+    // lv_obj_add_flag(label1, LV_OBJ_FLAG_EVENT_BUBBLE | LV_OBJ_FLAG_CLICKABLE);
 
     lv_anim_t a;
     lv_anim_init(&a);
@@ -174,16 +200,17 @@ void mpu6050_start(lv_obj_t *parent)
  *
  * @param event
  */
-static void back_button_func(lv_event_t *event)
+void back_button_gravity_line_func()
 {
-    lv_event_code_t code = lv_event_get_code(event);
-    if (code == LV_EVENT_CLICKED)
+    // lv_event_code_t code = lv_event_get_code(event);
+    // if (code == LV_EVENT_CLICKED)
     {
         //删除动画
         lv_anim_del(arc, set_angle);
         lv_obj_del(label);
         lv_obj_del(arc);
-        lv_obj_del(back_btn);
+        // lv_obj_del(back_btn);
+        my_gravity_line = false;
         main_demo(lv_scr_act());
     }
 }

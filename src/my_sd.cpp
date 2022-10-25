@@ -2,8 +2,8 @@
  * @Author: BlueBoxChamil 283040422@qq.com
  * @Date: 2022-09-02 13:34:20
  * @LastEditors: BlueBoxChamil 283040422@qq.com
- * @LastEditTime: 2022-09-07 15:02:28
- * @FilePath: \20220902\src\my_sd.cpp
+ * @LastEditTime: 2022-09-08 15:20:35
+ * @FilePath: \20220902-1\src\my_sd.cpp
  * @Description:
  *
  * Copyright (c) 2022 by BlueBoxChamil 283040422@qq.com, All Rights Reserved.
@@ -37,7 +37,8 @@ esp_err_t my_sd_init()
         .allocation_unit_size = 16 * 1024,
     };
 
-    ESP_LOGI(TAG, "Initializing sd Card");
+    // ESP_LOGI(TAG, "Initializing sd Card");
+    printf("Initializing sd Card\r\n");
 
     // sd spi 主机默认属性配置
     sdmmc_host_t host = SDSPI_HOST_DEFAULT();
@@ -163,18 +164,18 @@ void read_file()
 lv_fs_dir_t d;
 void check_dir()
 {
-    printf("*********3333*********\r\n");
+    // printf("*********3333*********\r\n");
     lv_fs_res_t res;
 
     char dir_buf[32];
 
-    res = lv_fs_dir_open(&d, "F:/dir");
+    res = lv_fs_dir_open(&d, "F:");
     if (res != LV_FS_RES_OK)
     {
         printf("open dir failed = %d\r\n", res);
         return;
     }
-    printf("open dir\r\n");
+    // printf("open dir\r\n");
 
     while (1)
     {
